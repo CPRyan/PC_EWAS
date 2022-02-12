@@ -15,11 +15,6 @@
 ############################################
 library(tidyverse)
 
-
-
-############################################
-
-
 ############################################
 
 
@@ -77,9 +72,9 @@ write_csv(my_locations, here::here("Output/Data", "my_locations.csv"))
 
 
 
+############################################
 
 
-newurl <-"https://cumccolumbia-my.sharepoint.com/:t:/r/personal/db3275_cumc_columbia_edu/Documents/Projects/MK/GSE55763_Lehne/GSE55763_normalized_betas.txt?csf=1&web=1&e=ULcgpW"
-
+readr::read_table(file = newurl, n_max = 10)
 
 
