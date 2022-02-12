@@ -1,5 +1,6 @@
 # Intro and pseudocode
 ############################################
+
 # 1
 # Open EPIC annotation file. 
 # Pull one region from a single chromosome with probe names - 
@@ -8,21 +9,18 @@
 
 # 2
 # Use those probe names to filter through the Lenhe file and find in file
-# Extract those and setup as necessary for my correlation matrix. 
-# 
 
+############################################
 # Packages
 ############################################
 library(tidyverse)
-
-############################################
-
-
-
+library(readr)
 # First try to load the annotation file for
 library(IlluminaHumanMethylationEPICanno.ilm10b2.hg19)
 
+
 # Pull off the location info
+# ############################################
 data(Locations);force(Locations)
 
 # Pull off a chromosome and region
@@ -70,11 +68,22 @@ my_locations <-Locations[chroms & pos,] %>%
 
 write_csv(my_locations, here::here("Output/Data", "my_locations.csv"))
 
-
+my_locations_probes <-my_locations$probe_id
 
 ############################################
+# Read in Lehne data (NOTE THAT IT"S NOT EPIC ARRAY but 450K array)
+# Select a subset of columns (100)
+# Then remove the Detection P-value rows
+############################################
+dat=read_tsv(file = here::here("Data", "GSE55763_normalized_betas.txt"), col_select = 1:100)
+
+my_chr_1_dat <-dat %>% 
+  select(-contains("Detection")) %>% 
+  filter(ID_REF %in% my_locations_probes)
 
 
-readr::read_table(file = newurl, n_max = 10)
+# Write File 
+############################################
+write_csv(my_chr_1_dat, here::here("Output/Data", "my_chr_1_dat.csv"))
 
 
